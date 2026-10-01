@@ -27,6 +27,7 @@
   --text:       #F3F1F5;
   --text-dim:   #A9A7B3;
   --on-light:   #252830;
+  --lockup-opacity: .55;   /* hero "global / the platform" transparency (0–1) */
 
   --grad-lime-lilac: linear-gradient(135deg, var(--lime) 0%, var(--lime) 45%, var(--lilac) 100%);
   --grad-lilac-corner: radial-gradient(circle at 0% 0%, var(--lilac) 0%, var(--lime) 60%);
@@ -124,8 +125,9 @@ a{color:inherit}
   font-family:var(--f-display);font-weight:700;color:var(--lilac);
   font-size:clamp(64px,15vw,220px);line-height:.8;letter-spacing:-.03em;
   text-shadow:.035em .035em 0 var(--navy);
-  margin-bottom:clamp(48px,6vw,80px);user-select:none;
+  margin-bottom:clamp(24px,3.4vw,44px);user-select:none;
   position:relative;display:inline-block;
+  opacity:var(--lockup-opacity);
 }
 .hero__the{position:absolute;right:-.12em;bottom:.02em;text-align:right;color:var(--lime);font-size:.36em;line-height:.85;letter-spacing:-.01em;text-shadow:.05em .05em 0 var(--navy)}
 .hero h1{
