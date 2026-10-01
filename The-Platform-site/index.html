@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Platform Global</title>
+<meta name="description" content="The Platform Global connects Tel Aviv's early-stage founders with 110+ innovation hubs worldwide. Operated by Tel Aviv Tech, Tel Aviv Global.">
+<link rel="icon" href="assets/the-platform-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE PLATFORM — design tokens (from "the platform global" deck)
+   ============================================================ */
+:root{
+  /* color */
+  --ink:        #252830;   /* page background (deck bg) */
+  --ink-2:      #1d1f26;   /* deeper panels */
+  --navy:       #273149;   /* headline drop-shadow */
+  --lime:       #CCFF00;   /* primary accent / headings */
+  --lilac:      #E2A9F1;   /* secondary surface */
+  --magenta:    #FF00C7;   /* numbers, highlights */
+  --black:      #000;      /* box outlines */
+  --text:       #F3F1F5;   /* body on dark */
+  --text-dim:   #A9A7B3;
+  --on-light:   #252830;   /* text on lime / lilac */
+
+  /* gradients (deck "chip" fills) */
+  --grad-lime-lilac: linear-gradient(135deg, var(--lime) 0%, var(--lime) 45%, var(--lilac) 100%);
+  --grad-lilac-corner: radial-gradient(circle at 0% 0%, var(--lilac) 0%, var(--lime) 60%);
+
+  /* type */
+  --f-display: "Space Mono", ui-monospace, monospace;
+  --f-body: "Space Grotesk", system-ui, sans-serif;
+
+  /* shape */
+  --stroke: 5px;
+  --stroke-sm: 3px;
+  --shadow-hard: 8px 8px 0 var(--black);
+
+  /* layout */
+  --max: 1200px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --section-y: clamp(72px, 11vw, 140px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--f-body);
+  font-size:18px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--lime);color:var(--on-light)}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+
+/* map texture behind content sections */
+.mapped{position:relative;isolation:isolate}
+.mapped::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:url(assets/city-map.webp) center/cover no-repeat;
+  opacity:.4;
+}
+
+/* ---------- type ---------- */
+.h-section{
+  font-family:var(--f-display);font-weight:700;
+  color:var(--lime);
+  font-size:clamp(44px, 8vw, 104px);
+  line-height:1;letter-spacing:.02em;
+  text-transform:lowercase;
+  margin-bottom:clamp(36px,6vw,72px);
+}
+.eyebrow{
+  font-family:var(--f-display);font-weight:700;
+  font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--magenta);display:inline-block;margin-bottom:14px;
+}
+.lead{font-size:clamp(19px,2vw,23px);color:var(--text);max-width:40ch}
+.mono{font-family:var(--f-display)}
+
+/* ---------- boxes (neo-brutal cards) ---------- */
+.box{
+  border:var(--stroke) solid var(--black);
+  color:var(--on-light);
+  padding:clamp(20px,2.4vw,32px);
+}
+.box--lime{background:var(--lime)}
+.box--lilac{background:var(--lilac)}
+.box--grad{background:var(--grad-lime-lilac)}
+.box--corner{background:var(--grad-lilac-corner)}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--f-display);font-weight:700;font-size:16px;
+  text-decoration:none;text-transform:lowercase;
+  padding:16px 26px;border:var(--stroke-sm) solid var(--black);
+  box-shadow:5px 5px 0 var(--black);
+  transition:transform .15s ease, box-shadow .15s ease;
+  cursor:pointer;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--black)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--black)}
+.btn:focus-visible{outline:3px solid var(--magenta);outline-offset:4px}
+.btn--lime{background:var(--lime);color:var(--on-light)}
+.btn--lilac{background:var(--lilac);color:var(--on-light)}
+.btn--ghost{background:transparent;color:var(--lime);border-color:var(--lime);box-shadow:5px 5px 0 var(--lime)}
+.btn--ghost:hover{box-shadow:7px 7px 0 var(--lime)}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:50;
+  transition:background .25s ease, border-color .25s ease;
+  border-bottom:2px solid transparent;
+}
+.nav.is-scrolled{background:rgba(29,31,38,.92);backdrop-filter:blur(8px);border-color:#000}
+.nav__in{display:flex;align-items:center;justify-content:space-between;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:44px;width:auto}
+.nav__links{display:flex;gap:28px;list-style:none;font-family:var(--f-display);font-size:14px}
+.nav__links a{text-decoration:none;color:var(--text);opacity:.85}
+.nav__links a:hover{color:var(--lime);opacity:1}
+.nav .btn{padding:10px 18px;font-size:14px}
+@media (max-width:860px){.nav__links{display:none}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;min-height:min(100vh, 980px);min-height:min(100svh, 980px);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:120px 0 60px;overflow:hidden;isolation:isolate;
+}
+.hero::before{ /* blurred street photo */
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:url(assets/hero-blur.jpg) center/cover no-repeat;
+  filter:contrast(1.1) brightness(.5);
+}
+.hero::after{ /* map overlay on right + fade to page */
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(180deg, transparent 60%, var(--ink) 100%),
+    url(assets/city-map.webp) right center/auto 120% no-repeat;
+  opacity:.35;
+}
+.hero__type{position:relative;line-height:.8;user-select:none}
+.hero__global{
+  font-family:var(--f-display);font-weight:700;
+  font-size:clamp(72px, 25vw, 360px);
+  color:var(--lilac);letter-spacing:-.02em;
+  text-shadow:.035em .035em 0 var(--navy);
+  display:block;
+}
+.hero__the{
+  position:absolute;right:2%;top:42%;
+  font-family:var(--f-display);font-weight:700;
+  color:var(--lime);text-align:right;
+  font-size:clamp(40px, 8.5vw, 124px);line-height:.85;
+  text-shadow:.04em .04em 0 var(--navy);
+}
+.hero__bottom{
+  display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:end;
+  margin-top:clamp(48px,7vw,96px);
+}
+.hero__lead{font-size:clamp(19px,2.1vw,24px);max-width:34ch}
+.hero__lead strong{color:var(--lime);font-weight:600}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:16px;justify-content:flex-end}
+.hero__op{
+  position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.hero__op span{font-family:var(--f-display);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim)}
+.hero__op img{height:46px;width:auto}
+@media (max-width:860px){
+  .hero__bottom{grid-template-columns:1fr}
+  .hero__ctas{justify-content:flex-start}
+  .hero__the{position:static;text-align:left;margin-top:12px}
+  .hero__op{position:static;transform:none;margin-top:48px;align-items:flex-start;padding:0 var(--gutter)}
+}
+
+/* ============================================================
+   STATS STRIP
+   ============================================================ */
+.stats{background:var(--lime);border-block:var(--stroke) solid #000;color:var(--on-light)}
+.stats__grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:32px 20px;border-left:var(--stroke-sm) solid #000}
+.stat:first-child{border-left:0}
+.stat b{display:block;font-family:var(--f-display);font-size:clamp(34px,4.4vw,56px);line-height:1}
+.stat span{font-size:15px;font-weight:500}
+@media (max-width:760px){
+  .stats__grid{grid-template-columns:1fr 1fr}
+  .stat:nth-child(3){border-left:0}
+  .stat:nth-child(n+3){border-top:var(--stroke-sm) solid #000}
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section{padding:var(--section-y) 0}
+
+/* the need */
+.need__grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.need__side{display:grid;gap:28px;justify-items:end}
+.need__side .box{font-size:clamp(20px,2.2vw,28px);font-weight:600;line-height:1.35}
+.need__side .box:first-child{max-width:360px}
+@media (max-width:860px){.need__grid{grid-template-columns:1fr}.need__side{justify-items:stretch}}
+
+/* the opportunity */
+.opp__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.sticker{
+  background:var(--lime);color:#000;border:var(--stroke) solid #000;
+  rotate:-12deg;padding:24px 30px;justify-self:center;
+  box-shadow:var(--shadow-hard);
+}
+.sticker b{display:block;font-family:var(--f-display);font-size:clamp(72px,10vw,128px);line-height:.9}
+.sticker span{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,3.6vw,44px);line-height:1}
+.rows{display:grid;gap:18px}
+.row{display:flex;align-items:center;gap:22px}
+.row .n{font-family:var(--f-display);font-weight:700;font-size:48px;line-height:1;min-width:1ch;color:var(--on-light)}
+.row p{font-size:clamp(18px,1.8vw,21px);font-weight:500}
+@media (max-width:860px){.opp__grid{grid-template-columns:1fr}.sticker{margin:12px 0 28px}}
+
+/* the value — staggered staircase */
+.value__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:end}
+.value__grid .box{position:relative;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end}
+.value__grid .box:nth-child(1){margin-bottom:0}
+.value__grid .box:nth-child(2){margin-bottom:60px}
+.value__grid .box:nth-child(3){margin-bottom:120px}
+.value__grid .box:nth-child(4){margin-bottom:180px}
+.value .num{
+  position:absolute;top:14px;right:18px;
+  font-family:var(--f-display);font-weight:700;font-size:54px;line-height:1;color:var(--magenta);
+}
+.value h3{font-family:var(--f-display);font-size:19px;line-height:1.2;margin:40px 0 8px}
+.value p{font-size:16px;line-height:1.5}
+@media (max-width:960px){
+  .value__grid{grid-template-columns:1fr 1fr}
+  .value__grid .box:nth-child(n){margin-bottom:0}
+}
+@media (max-width:560px){.value__grid{grid-template-columns:1fr}}
+
+/* the model */
+.model__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
+.model-card{background:var(--lilac);color:var(--on-light);border:var(--stroke) solid #000;display:flex;flex-direction:column;min-height:420px}
+.model-card:nth-child(2){margin-top:48px}
+.model-card:nth-child(3){margin-top:-24px}
+.model-card h3{
+  font-family:var(--f-display);font-weight:700;text-transform:lowercase;
+  font-size:clamp(34px,3.6vw,50px);line-height:1;padding:24px 22px 0;
+}
+.model-card .tag{font-family:var(--f-display);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:14px 22px 0;color:#5b2a6b}
+.model-card p{margin-top:auto;padding:22px;font-size:17px;line-height:1.55}
+.model__more{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:26px}
+.model__more .box h4{font-family:var(--f-display);font-size:22px;text-transform:lowercase;margin-bottom:8px}
+.model__more .box p{font-size:17px}
+@media (max-width:960px){
+  .model__grid{grid-template-columns:1fr}
+  .model-card{min-height:0}
+  .model-card:nth-child(n){margin-top:0}
+  .model-card p{margin-top:28px}
+  .model__more{grid-template-columns:1fr}
+}
+
+/* who we are */
+.about{background:var(--ink-2);border-block:var(--stroke) solid #000}
+.about__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px)}
+.about__copy p{margin-bottom:18px;color:var(--text)}
+.about__copy p.dim{color:var(--text-dim)}
+.about__copy strong{color:var(--lime);font-weight:600}
+.perks{display:grid;gap:16px;list-style:none;align-content:start}
+.perk{display:grid;grid-template-columns:56px 1fr;gap:16px;align-items:start;border:var(--stroke-sm) solid #000;background:var(--ink);padding:18px}
+.perk i{
+  font-style:normal;width:56px;height:56px;display:grid;place-items:center;
+  background:var(--lime);border:var(--stroke-sm) solid #000;color:#000;
+  font-family:var(--f-display);font-weight:700;font-size:20px;
+}
+.perk:nth-child(even) i{background:var(--lilac)}
+.perk h4{font-family:var(--f-display);font-size:17px;color:var(--lime);text-transform:lowercase}
+.perk p{font-size:16px;color:var(--text-dim);line-height:1.5}
+.pill{display:inline-block;margin-top:8px;background:var(--magenta);color:#fff;border:var(--stroke-sm) solid #000;
+  font-family:var(--f-display);font-weight:700;font-size:15px;padding:8px 14px;transform:rotate(-2deg)}
+@media (max-width:860px){.about__grid{grid-template-columns:1fr}}
+
+/* roadmap */
+.road{display:grid;gap:22px}
+.road__row{
+  display:grid;grid-template-columns:1fr 240px 150px;align-items:center;
+  border:var(--stroke) solid #000;background:var(--lilac);color:var(--on-light);
+}
+.road__row p{padding:22px 26px;font-size:18px;font-weight:500}
+.road__row .phase{font-family:var(--f-display);font-weight:700;font-size:22px;padding:0 20px;text-align:right}
+.road__row .q{display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:10px 14px 10px 0;height:100%}
+.road__row .q b{font-family:var(--f-display);font-size:64px;line-height:1}
+.road__row .q small{font-family:var(--f-display);font-weight:700;font-size:15px;writing-mode:vertical-rl;letter-spacing:.06em}
+.road__row--hot{background:var(--lime)}
+.road__row--hot .phase,.road__row--hot .q{color:var(--magenta)}
+@media (max-width:760px){
+  .road__row{grid-template-columns:1fr auto}
+  .road__row .phase{grid-row:1;grid-column:1;text-align:left;padding:18px 20px 0}
+  .road__row .q{grid-row:1;grid-column:2}
+  .road__row p{grid-column:1/-1;padding:4px 20px 20px}
+  .road__row .q b{font-size:48px}
+}
+
+/* cta */
+.cta{text-align:left}
+.cta__box{
+  background:var(--grad-lime-lilac);border:var(--stroke) solid #000;box-shadow:14px 14px 0 #000;
+  color:var(--on-light);padding:clamp(32px,6vw,72px);
+  display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end;
+}
+.cta__box h2{font-family:var(--f-display);font-size:clamp(38px,5.4vw,72px);line-height:1;text-transform:lowercase}
+.cta__box p{font-size:clamp(18px,1.8vw,21px);margin-top:18px;max-width:42ch;font-weight:500}
+.cta__actions{display:grid;gap:14px;justify-items:start}
+.cta__actions .btn--dark{background:var(--ink);color:var(--lime)}
+.cta__note{font-family:var(--f-display);font-size:13px}
+@media (max-width:860px){.cta__box{grid-template-columns:1fr;box-shadow:8px 8px 0 #000}}
+
+/* footer */
+footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:56px 0 36px}
+.foot{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px}
+.foot h5{font-family:var(--f-display);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--lime);margin-bottom:14px}
+.foot ul{list-style:none;display:grid;gap:8px}
+.foot a{text-decoration:none;color:var(--text-dim);font-size:16px}
+.foot a:hover{color:var(--lime)}
+.foot__brand{display:flex;gap:22px;align-items:center}
+.foot__brand img:first-child{height:64px;width:auto}
+.foot__brand img:last-child{height:52px;width:auto;opacity:.9}
+.foot__addr{color:var(--text-dim);font-size:15px;margin-top:18px}
+.foot__legal{margin-top:44px;padding-top:20px;border-top:1px solid #34374080;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--f-display);font-size:12px;color:var(--text-dim)}
+@media (max-width:760px){.foot{grid-template-columns:1fr}}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease, transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .btn{transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top" aria-label="The Platform — home">
+      <img src="assets/the-platform-logo.png" alt="The Platform">
+    </a>
+    <ul class="nav__links">
+      <li><a href="#need">the need</a></li>
+      <li><a href="#model">the model</a></li>
+      <li><a href="#about">who we are</a></li>
+      <li><a href="#roadmap">roadmap</a></li>
+    </ul>
+    <a class="btn btn--lime" href="#connect">let's connect</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <h1 class="hero__type" id="hero-title">
+      <span class="hero__global">global</span>
+      <span class="hero__the">the<br>platform</span>
+    </h1>
+    <div class="hero__bottom">
+      <p class="hero__lead">Tel Aviv's hub for early-stage founders is going international. We connect our community with <strong>110+ innovation hubs</strong> around the world, and open our doors to theirs.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--lime" href="#connect">become a partner hub →</a>
+        <a class="btn btn--ghost" href="#model">see the model</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero__op">
+    <span>operated by</span>
+    <img src="assets/tel-aviv-tech.png" alt="Tel Aviv Tech — Tel Aviv Global">
+  </div>
+</section>
+
+<!-- ===================== STATS ===================== -->
+<div class="stats" role="region" aria-label="The Platform in numbers">
+  <div class="wrap stats__grid">
+    <div class="stat"><b>300+</b><span>active founders</span></div>
+    <div class="stat"><b>50+</b><span>events a year</span></div>
+    <div class="stat"><b>110+</b><span>global hubs in reach</span></div>
+    <div class="stat"><b>$0</b><span>no cost · no equity</span></div>
+  </div>
+</div>
+
+<!-- ===================== THE NEED ===================== -->
+<section id="need" class="mapped">
+  <div class="wrap need__grid">
+    <div class="rv">
+      <h2 class="h-section">the need</h2>
+      <p class="lead">Tel Aviv builds world-class startups. But at the earliest stage, most founders build them from a single city.</p>
+    </div>
+    <div class="need__side">
+      <div class="box box--corner rv">A local glass ceiling.</div>
+      <div class="box box--lime rv">Early-stage founders lack international connections and a real way into new markets abroad.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE OPPORTUNITY ===================== -->
+<section id="opportunity" class="mapped">
+  <div class="wrap">
+    <h2 class="h-section rv">the opportunity</h2>
+    <div class="opp__grid">
+      <div class="sticker rv" aria-hidden="true"><b>110+</b><span>Global Hubs</span></div>
+      <div class="rows">
+        <div class="box box--lilac row rv"><span class="n">1</span><p>Tel Aviv, the Startup Nation's startup city.</p></div>
+        <div class="box box--lilac row rv"><span class="n">2</span><p>More than 110 global innovation hubs, ready to connect.</p></div>
+        <div class="box box--lilac row rv"><span class="n">3</span><p>The Tel Aviv Tech brand, used to open doors for our founders.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE VALUE ===================== -->
+<section id="value" class="mapped value">
+  <div class="wrap">
+    <h2 class="h-section rv">the value</h2>
+    <div class="value__grid">
+      <div class="box box--lime rv">
+        <span class="num">4</span>
+        <h3>stories worth sharing</h3>
+        <p>Content and success stories from global activity that power our social channels.</p>
+      </div>
+      <div class="box box--grad rv">
+        <span class="num">3</span>
+        <h3>measurable value</h3>
+        <p>Tangible, measurable outcomes for Platform founders, with real products to show for it.</p>
+      </div>
+      <div class="box box--lilac rv">
+        <span class="num">2</span>
+        <h3>positioning</h3>
+        <p>The Platform and Tel Aviv Global as city bodies with a genuine international presence.</p>
+      </div>
+      <div class="box box--lilac rv">
+        <span class="num">1</span>
+        <h3>a wider network</h3>
+        <p>Extending Tel Aviv's network to innovation centers worldwide, as part of our city-to-world goals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== THE MODEL ===================== -->
+<section id="model" class="mapped">
+  <div class="wrap">
+    <h2 class="h-section rv">the model</h2>
+    <div class="model__grid">
+      <article class="model-card rv">
+        <span class="tag">exchange</span>
+        <h3>soft landing</h3>
+        <p>A reciprocal model. Every founder who arrives at a partner hub gets a workstation, an intro meeting, a market overview and two or three relevant introductions. Theirs get the same here.</p>
+      </article>
+      <article class="model-card rv">
+        <span class="tag">monthly</span>
+        <h3>round tables</h3>
+        <p>A monthly Zoom session with one international hub, for 3–5 Platform founders who want to go deep on a specific target market.</p>
+      </article>
+      <article class="model-card rv">
+        <span class="tag">talent</span>
+        <h3>inbound interns</h3>
+        <p>We recruit international interns as skilled, free support for startups working out of The Platform.</p>
+      </article>
+    </div>
+    <div class="model__more">
+      <div class="box box--lime rv">
+        <h4>cross-continent connections</h4>
+        <p>Direct, fast introductions to VCs, investors, accelerators and corporates overseas.</p>
+      </div>
+      <div class="box box--corner rv">
+        <h4>knowledge exchange & delegations</h4>
+        <p>We host and send international delegations, and swap programs and working methods with partner hubs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHO WE ARE ===================== -->
+<section id="about" class="about">
+  <div class="wrap about__grid">
+    <div class="about__copy rv">
+      <span class="eyebrow">who we are</span>
+      <h2 class="h-section" style="margin-bottom:28px">welcome to the platform</h2>
+      <p>The Platform is Tel Aviv-Yafo Municipality's hub for entrepreneurship. We're based in Neve Shaanan, South Tel Aviv, and we back early-stage founders from day one.</p>
+      <p class="dim">We're operated by Tel Aviv Tech, the International Economic Department of Tel Aviv Global, a municipal corporation of the Tel Aviv-Yafo Municipality. Tel Aviv Tech drives the city's whole tech ecosystem, from early-stage startups to the world's largest multinationals.</p>
+      <p>Founders get what they need to move fast: a professional environment and high-level resources, <strong>at no cost and no equity</strong>.</p>
+      <span class="pill">no cost. no equity.</span>
+    </div>
+    <ul class="perks">
+      <li class="perk rv"><i>01</i><div><h4>coworking & meeting rooms</h4><p>A professional space to build your vision.</p></div></li>
+      <li class="perk rv"><i>02</i><div><h4>expert mentoring</h4><p>One-on-one guidance from industry leaders.</p></div></li>
+      <li class="perk rv"><i>03</i><div><h4>practical workshops</h4><p>Hands-on tools you can use the same day.</p></div></li>
+      <li class="perk rv"><i>04</i><div><h4>community</h4><p>Peers and ecosystem partners who know what you're going through. Weekly meetups, happy hours and 50+ events a year.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== ROADMAP ===================== -->
+<section id="roadmap" class="mapped">
+  <div class="wrap">
+    <h2 class="h-section rv">the roadmap</h2>
+    <div class="road">
+      <div class="road__row rv">
+        <p>Build the foundation: map 110 hubs, launch our digital presence and start reaching out for partnerships.</p>
+        <span class="phase">foundation</span>
+        <span class="q"><b>q3</b><small>2026</small></span>
+      </div>
+      <div class="road__row rv">
+        <p>Run the Soft Landing model, host the first round tables and welcome our first intern cohort.</p>
+        <span class="phase">virtual poc</span>
+        <span class="q"><b>q4</b><small>2026</small></span>
+      </div>
+      <div class="road__row road__row--hot rv">
+        <p>The flagship moment: an official B2B delegation to one of our strategic destinations.</p>
+        <span class="phase">the delegation</span>
+        <span class="q"><b>q1</b><small>2027</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section id="connect" class="cta mapped">
+  <div class="wrap">
+    <div class="cta__box rv">
+      <div>
+        <span class="eyebrow" style="color:var(--on-light)">for hubs, investors & partners</span>
+        <h2>bring your hub to tel aviv.</h2>
+        <p>Running an innovation hub, accelerator or fund abroad? Let's set up a soft-landing exchange for your founders and ours. It takes 20 minutes to find out if we're a fit.</p>
+      </div>
+      <div class="cta__actions">
+        <!-- TODO: replace with the Calendly / Typeform link -->
+        <a class="btn btn--dark" href="#" data-placeholder="calendly">book an intro call →</a>
+        <a class="btn btn--lilac" href="https://canva.link/vwgu5exy8v1zdtm" target="_blank" rel="noopener">view the deck</a>
+        <span class="cta__note">founder in tel aviv? <a href="https://www.coing.co/TLV_Haratzif" target="_blank" rel="noopener">join an event →</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="foot__brand">
+          <img src="assets/the-platform-logo.png" alt="The Platform">
+          <img src="assets/tel-aviv-tech.png" alt="Tel Aviv Tech — Tel Aviv Global">
+        </div>
+        <p class="foot__addr">Neve Shaanan, South Tel Aviv-Yafo · Startup City</p>
+      </div>
+      <div>
+        <h5>explore</h5>
+        <ul>
+          <li><a href="#need">the need</a></li>
+          <li><a href="#model">the model</a></li>
+          <li><a href="#about">who we are</a></li>
+          <li><a href="#roadmap">roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>follow</h5>
+        <ul>
+          <li><a href="https://www.linkedin.com/company/tel-aviv-global/" target="_blank" rel="noopener">LinkedIn · Tel Aviv Global</a></li>
+          <li><a href="https://www.facebook.com/ThePlatform.TLV/" target="_blank" rel="noopener">Facebook · The Platform</a></li>
+          <li><a href="https://www.coing.co/TLV_Haratzif" target="_blank" rel="noopener">Events calendar · Coing</a></li>
+          <li><a href="https://www.tel-aviv.gov.il/Business/BusinessLicense/Pages/Haratzif.aspx?IccID=290" target="_blank" rel="noopener">The Platform on tel-aviv.gov.il</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__legal">
+      <span>© 2026 The Platform · Tel Aviv Tech · Tel Aviv Global</span>
+      <span>built for founders. free, always.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // nav background on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // reveal on scroll
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.rv').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 70 + 'ms';
+    io ? io.observe(el) : el.classList.add('in');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Platform Global</title>
+<meta name="description" content="Powered by Tel Aviv Tech and the Municipality of Tel Aviv-Yafo. We connect the local startup ecosystem to global innovation hubs, giving founders the infrastructure they need to scale — at zero cost and zero equity.">
+<link rel="icon" href="assets/the-platform-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THE PLATFORM — design tokens
+   Source: "the platform global" deck + event posters
+   ============================================================ */
+:root{
+  /* color */
+  --ink:        #252830;   /* page background (deck bg) */
+  --ink-2:      #1d1f26;   /* deeper panels */
+  --navy:       #273149;   /* headline drop-shadow */
+  --lime:       #CCFF00;   /* primary accent / headings */
+  --lilac:      #E2A9F1;   /* secondary surface */
+  --magenta:    #FF00C7;   /* numbers, vertical wordmark */
+  --orange:     #FF5C00;   /* poster accent — use sparingly */
+  --black:      #000;      /* box outlines */
+  --text:       #F3F1F5;
+  --text-dim:   #A9A7B3;
+  --on-light:   #252830;
+
+  --grad-lime-lilac: linear-gradient(135deg, var(--lime) 0%, var(--lime) 45%, var(--lilac) 100%);
+  --grad-lilac-corner: radial-gradient(circle at 0% 0%, var(--lilac) 0%, var(--lime) 60%);
+
+  /* type */
+  --f-display: "Space Mono", ui-monospace, monospace;
+  --f-body: "Space Grotesk", system-ui, sans-serif;
+
+  /* shape */
+  --stroke: 5px;
+  --stroke-sm: 3px;
+
+  /* layout */
+  --max: 1200px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --section-y: clamp(72px, 11vw, 140px);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);color:var(--text);
+  font-family:var(--f-body);font-size:18px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--lime);color:var(--on-light)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+
+/* map texture */
+.mapped{position:relative;isolation:isolate}
+.mapped::before{content:"";position:absolute;inset:0;z-index:-1;background:url(assets/city-map.webp) center/cover no-repeat;opacity:.4}
+
+/* ---------- type ---------- */
+.h-section{
+  font-family:var(--f-display);font-weight:700;color:var(--lime);
+  font-size:clamp(34px,5.2vw,68px);line-height:1.05;letter-spacing:-.01em;
+  margin-bottom:clamp(36px,6vw,72px);max-width:20ch;
+}
+.h-section em{font-style:normal;color:var(--lilac);display:block}
+.hl{ /* lime highlighter bar — from the PlugIn posters */
+  background:linear-gradient(transparent 12%, var(--lime) 12%, var(--lime) 92%, transparent 92%);
+  color:var(--on-light);padding:0 .2em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--f-display);font-weight:700;font-size:16px;text-decoration:none;
+  padding:16px 26px;border:var(--stroke-sm) solid var(--black);box-shadow:5px 5px 0 var(--black);
+  transition:transform .15s ease, box-shadow .15s ease;cursor:pointer;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--black)}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--black)}
+.btn:focus-visible{outline:3px solid var(--magenta);outline-offset:4px}
+.btn--lime{background:var(--lime);color:var(--on-light)}
+.btn--dark{background:var(--ink);color:var(--lime)}
+.btn--ghost{background:transparent;color:var(--lime);border-color:var(--lime);box-shadow:5px 5px 0 var(--lime)}
+.btn--ghost:hover{box-shadow:7px 7px 0 var(--lime)}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .25s, border-color .25s;border-bottom:2px solid transparent}
+.nav.is-scrolled{background:rgba(29,31,38,.92);backdrop-filter:blur(8px);border-color:#000}
+.nav__in{display:flex;align-items:center;justify-content:space-between;height:76px}
+.brand img{height:44px;width:auto}
+.nav__links{display:flex;gap:28px;list-style:none;font-family:var(--f-display);font-size:14px}
+.nav__links a{text-decoration:none;opacity:.85}
+.nav__links a:hover{color:var(--lime);opacity:1}
+.nav .btn{padding:10px 18px;font-size:14px}
+@media (max-width:860px){.nav__links{display:none}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;min-height:min(100vh,980px);min-height:min(100svh,980px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:130px 0 72px;overflow:hidden;isolation:isolate;
+}
+.hero__photo{position:absolute;inset:0;z-index:-2}
+.hero__photo img{width:100%;height:100%;object-fit:cover;object-position:30% center;filter:grayscale(1) contrast(1.1) brightness(.62)}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(90deg, rgba(37,40,48,.92) 0%, rgba(37,40,48,.55) 55%, rgba(37,40,48,.15) 100%),
+    linear-gradient(180deg, transparent 55%, var(--ink) 100%);
+}
+/* vertical wordmark, as on the posters */
+.hero__vert{
+  position:absolute;right:clamp(8px,3vw,40px);top:96px;bottom:40px;
+  writing-mode:vertical-rl;rotate:180deg;
+  font-family:var(--f-display);font-weight:700;color:var(--magenta);
+  font-size:clamp(48px,7vw,104px);line-height:.95;letter-spacing:-.01em;
+  display:flex;align-items:center;user-select:none;
+}
+.hero__global{
+  font-family:var(--f-display);font-weight:700;color:var(--lilac);
+  font-size:clamp(64px,15vw,220px);line-height:.8;letter-spacing:-.03em;
+  text-shadow:.035em .035em 0 var(--navy);
+  margin-bottom:clamp(18px,3vw,36px);user-select:none;
+}
+.hero h1{
+  font-family:var(--f-display);font-weight:700;color:var(--lime);
+  font-size:clamp(32px,4.6vw,62px);line-height:1.05;letter-spacing:-.01em;max-width:17ch;
+  text-shadow:3px 3px 0 var(--navy);
+}
+.hero h2{font-family:var(--f-body);font-weight:400;font-size:clamp(18px,1.8vw,22px);line-height:1.55;max-width:46ch;margin-top:22px}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:16px;margin-top:34px}
+.hero > .wrap{width:100%}
+.hero__copy{max-width:min(880px, 82%)}
+@media (max-width:760px){
+  .hero__vert{display:none}
+  .hero__copy{max-width:100%}
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+section{padding:var(--section-y) 0}
+
+/* ---- global model ---- */
+.model__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
+.feat{border:var(--stroke) solid #000;color:var(--on-light);display:flex;flex-direction:column;position:relative}
+.feat .n{font-family:var(--f-display);font-weight:700;font-size:54px;line-height:1;color:var(--magenta);position:absolute;top:14px;right:18px}
+.feat h3{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,2.6vw,36px);line-height:1.05;padding:26px 70px 0 24px}
+.feat p{padding:22px 24px 26px;font-size:17px;line-height:1.55;margin-top:auto}
+.feat p strong{display:block;font-family:var(--f-display);font-size:17px;margin-bottom:6px}
+.feat--tall{background:var(--lilac);min-height:400px}
+.model__grid .feat:nth-child(2){margin-top:48px}
+.model__grid .feat:nth-child(3){margin-top:-20px}
+.model__row{display:grid;grid-template-columns:1fr 1.25fr;gap:26px;margin-top:26px;align-items:stretch}
+.feat--wide{background:var(--grad-lilac-corner)}
+.feat--slack{background:var(--lime)}
+.feat--slack p{margin-top:0}
+.feat--slack .btn{margin:auto 24px 26px;align-self:flex-start}
+@media (max-width:960px){
+  .model__grid,.model__row{grid-template-columns:1fr}
+  .feat--tall{min-height:0}
+  .model__grid .feat:nth-child(n){margin-top:0}
+  .feat p{margin-top:24px}
+}
+
+/* ---- numbers ---- */
+.numbers{background:var(--lime);color:var(--on-light);border-block:var(--stroke) solid #000}
+.numbers .h-section{color:var(--on-light);max-width:none}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.num{background:var(--ink);color:var(--text);border:var(--stroke) solid #000;padding:28px 26px 30px;box-shadow:10px 10px 0 #000}
+.num b{display:block;font-family:var(--f-display);font-size:clamp(64px,8vw,112px);line-height:.9;letter-spacing:-.03em;color:var(--lilac)}
+.num:nth-child(2) b{color:var(--lime)}
+.num:nth-child(3) b{color:var(--magenta)}
+.num p{margin-top:16px;font-size:18px}
+.num:nth-child(2){rotate:1.5deg}
+.num:nth-child(3){rotate:-1.5deg}
+@media (max-width:860px){.nums{grid-template-columns:1fr}.num:nth-child(n){rotate:0deg}}
+
+/* ---- poster strip (imagery only) ---- */
+.strip{padding:clamp(48px,6vw,80px) 0;overflow:hidden;background:var(--ink-2);border-bottom:var(--stroke) solid #000}
+.strip__track{display:flex;gap:26px;width:max-content;animation:marquee 60s linear infinite}
+.strip:hover .strip__track{animation-play-state:paused}
+.strip img{height:clamp(260px,30vw,380px);width:auto;border:var(--stroke) solid #000;box-shadow:8px 8px 0 #000}
+.strip img:nth-child(odd){rotate:-2deg}
+.strip img:nth-child(even){rotate:1.5deg}
+@keyframes marquee{to{transform:translateX(calc(-50% - 13px))}}
+
+/* ---- about ---- */
+.about__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:center}
+.about__body{font-size:clamp(19px,1.9vw,22px);line-height:1.6}
+.about__body strong{color:var(--lime);font-weight:600}
+.about__logos{display:flex;align-items:center;gap:26px;margin-top:36px}
+.about__logos img:first-child{height:72px;width:auto}
+.about__logos img:last-child{height:58px;width:auto}
+.about__media img{width:100%;border:var(--stroke) solid #000;box-shadow:14px 14px 0 var(--orange)}
+@media (max-width:860px){.about__grid{grid-template-columns:1fr}.about__media{max-width:460px}}
+
+/* ---- contact ---- */
+.contact__box{
+  background:var(--grad-lime-lilac);border:var(--stroke) solid #000;box-shadow:14px 14px 0 #000;
+  color:var(--on-light);padding:clamp(28px,5vw,64px);
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:start;
+}
+.contact__box .h-section{color:var(--on-light);margin-bottom:22px}
+.contact__box > div > p{font-size:clamp(18px,1.8vw,21px);font-weight:500;max-width:36ch}
+.form{display:grid;gap:18px}
+.field label{display:block;font-family:var(--f-display);font-weight:700;font-size:14px;margin-bottom:6px}
+.field input{
+  width:100%;font:inherit;font-size:17px;color:var(--on-light);background:#fff;
+  border:var(--stroke-sm) solid #000;padding:14px 16px;border-radius:0;
+}
+.field input:focus{outline:none;box-shadow:5px 5px 0 var(--magenta)}
+.form .btn{justify-self:start;margin-top:6px}
+@media (max-width:860px){.contact__box{grid-template-columns:1fr;box-shadow:8px 8px 0 #000}}
+
+/* ---- footer ---- */
+footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 0}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.foot__brand{display:flex;gap:22px;align-items:center}
+.foot__brand img:first-child{height:56px;width:auto}
+.foot__brand img:last-child{height:44px;width:auto;opacity:.9}
+.foot__links{display:flex;gap:14px;list-style:none}
+.foot__links a{
+  width:46px;height:46px;display:grid;place-items:center;
+  border:var(--stroke-sm) solid #000;background:var(--lilac);color:var(--on-light);
+  box-shadow:4px 4px 0 #000;transition:transform .15s, box-shadow .15s;
+}
+.foot__links a:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;background:var(--lime)}
+.foot__links svg{width:20px;height:20px}
+.foot__copy{font-family:var(--f-display);font-size:12px;color:var(--text-dim);width:100%}
+
+/* reveal */
+.rv{opacity:0;translate:0 24px;transition:opacity .6s ease, translate .6s ease}
+.rv.in{opacity:1;translate:0 0}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;translate:0 0;transition:none}
+  .btn{transition:none}
+  .strip__track{animation:none;flex-wrap:wrap;width:auto;justify-content:center}
+  .strip__track [aria-hidden="true"]{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top" aria-label="The Platform — home">
+      <img src="assets/the-platform-logo.png" alt="The Platform">
+    </a>
+    <ul class="nav__links">
+      <li><a href="#model">The Global Model</a></li>
+      <li><a href="#numbers">Numbers</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn--lime" href="#contact">Partner With Us</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===================== 1. HERO ===================== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__photo"><img src="assets/space-crowd.jpg" alt="" fetchpriority="high"></div>
+  <div class="hero__vert" aria-hidden="true">The<br>Platform</div>
+  <div class="wrap">
+    <div class="hero__copy">
+      <div class="hero__global" aria-hidden="true">global</div>
+      <h1 id="hero-title">Tel Aviv’s Tech Hub for Early-Stage Founders.</h1>
+      <h2>Powered by Tel Aviv Tech and the Municipality of Tel Aviv-Yafo. We connect the local startup ecosystem to global innovation hubs, giving founders the infrastructure they need to scale — <span class="hl">at zero cost and zero equity.</span></h2>
+      <div class="hero__ctas">
+        <a class="btn btn--lime" href="#contact">Partner With Us</a>
+        <!-- TODO: point to the Calendly / Typeform booking link -->
+        <a class="btn btn--ghost" href="#contact" data-booking>Schedule an Intro Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2. GLOBAL VALUE PROPOSITION ===================== -->
+<section id="model" class="mapped" aria-labelledby="model-title">
+  <div class="wrap">
+    <h2 class="h-section rv" id="model-title">The Global Model: <em>Partnerships Built for Impact.</em></h2>
+
+    <div class="model__grid">
+      <article class="feat feat--tall rv">
+        <span class="n">1</span>
+        <h3>Soft Landing</h3>
+        <p><strong>Fast-track your founders.</strong> A seamless landing in Tel Aviv featuring a dedicated workspace, market overviews, and strategic introductions from day one.</p>
+      </article>
+      <article class="feat feat--tall rv">
+        <span class="n">2</span>
+        <h3>Round Tables</h3>
+        <p><strong>Cross-border deep dives.</strong> Curated virtual sessions connecting selected founders with global market experts.</p>
+      </article>
+      <article class="feat feat--tall rv">
+        <span class="n">3</span>
+        <h3>Knowledge Exchange &amp; Delegations</h3>
+        <p>Building bridges through inbound and outbound delegations, shared methodologies, and professional ecosystem tours.</p>
+      </article>
+    </div>
+
+    <div class="model__row">
+      <article class="feat feat--wide rv">
+        <span class="n">4</span>
+        <h3>Cross-Continent Connections</h3>
+        <p>Your direct access to the Tel Aviv ecosystem — top-tier VCs, angel investors, accelerators, and corporate partners.</p>
+      </article>
+      <article class="feat feat--slack rv">
+        <span class="n">5</span>
+        <h3>The Global Slack Community</h3>
+        <p><strong>Where the ecosystem never sleeps.</strong> Join our exclusive digital workspace for real-time networking, peer-to-peer consulting, and direct hub-to-hub connections.</p>
+        <!-- TODO: Slack invite link -->
+        <a class="btn btn--dark" href="#" data-slack>Join Our Slack Workspace</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3. TRACK RECORD & NUMBERS ===================== -->
+<section id="numbers" class="numbers" aria-labelledby="numbers-title">
+  <div class="wrap">
+    <h2 class="h-section rv" id="numbers-title">The Numbers Behind the Ecosystem.</h2>
+    <div class="nums">
+      <div class="num rv"><b>500+</b><p>Active founders in our growing community.</p></div>
+      <div class="num rv"><b>50+</b><p>Professional events and workshops annually.</p></div>
+      <div class="num rv"><b>0%</b><p>Equity or cost (100% municipal backing).</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== poster strip (imagery only) ===================== -->
+<div class="strip" role="img" aria-label="Event posters from The Platform">
+  <div class="strip__track">
+    <img src="assets/poster-toolbox.jpg" alt="" loading="lazy">
+    <img src="assets/poster-plugin-1.jpg" alt="" loading="lazy">
+    <img src="assets/poster-match-point.jpg" alt="" loading="lazy">
+    <img src="assets/poster-time-workshop.jpg" alt="" loading="lazy">
+    <img src="assets/poster-plugin-2.jpg" alt="" loading="lazy">
+    <img src="assets/poster-plugin-3.jpg" alt="" loading="lazy">
+    <!-- duplicate set for a seamless loop -->
+    <img src="assets/poster-toolbox.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/poster-plugin-1.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/poster-match-point.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/poster-time-workshop.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/poster-plugin-2.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/poster-plugin-3.jpg" alt="" loading="lazy" aria-hidden="true">
+  </div>
+</div>
+
+<!-- ===================== 4. THE HUB & THE CITY ===================== -->
+<section id="about" class="mapped" aria-labelledby="about-title">
+  <div class="wrap about__grid">
+    <div class="rv">
+      <h2 class="h-section" id="about-title">Tel Aviv’s Home for Tech Innovation.</h2>
+      <p class="about__body">The Platform is operated by <strong>Tel Aviv Tech</strong>, the International Economic Department of Tel Aviv Global – a municipal corporation of the City of Tel Aviv-Yafo. While Tel Aviv Tech drives the city's full tech ecosystem, The Platform is where that support begins on the ground, empowering founders from day one.</p>
+      <div class="about__logos">
+        <img src="assets/the-platform-logo.png" alt="The Platform">
+        <img src="assets/tel-aviv-tech.png" alt="Tel Aviv Tech — Tel Aviv Global">
+      </div>
+    </div>
+    <div class="about__media rv">
+      <img src="assets/poster-tel-tech.jpg" alt="Tel &amp; Tech — Tel Aviv entrepreneurship" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5. CONTACT ===================== -->
+<section id="contact" class="mapped" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="contact__box rv">
+      <div>
+        <h2 class="h-section" id="contact-title">Let’s Build the Bridge Together.</h2>
+        <p>Ready to connect your ecosystem to Tel Aviv? Schedule an intro call with our team or drop your details below.</p>
+      </div>
+      <!-- TODO: set action to the form endpoint (Typeform / Formspree / CRM) -->
+      <form class="form" action="#" method="post" id="contact-form">
+        <div class="field">
+          <label for="f-org">Hub/Organization Name</label>
+          <input id="f-org" name="organization" type="text" autocomplete="organization" required>
+        </div>
+        <div class="field">
+          <label for="f-city">City &amp; Country</label>
+          <input id="f-city" name="city_country" type="text" autocomplete="address-level2" required>
+        </div>
+        <div class="field">
+          <label for="f-email">Work Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <button class="btn btn--dark" type="submit">Schedule an Intro Call</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap foot">
+    <div class="foot__brand">
+      <img src="assets/the-platform-logo.png" alt="The Platform">
+      <img src="assets/tel-aviv-tech.png" alt="Tel Aviv Tech — Tel Aviv Global">
+    </div>
+    <ul class="foot__links">
+      <li><a href="https://www.linkedin.com/company/tel-aviv-global/" target="_blank" rel="noopener" aria-label="Tel Aviv Global on LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3v-11zm6.5 0h3.8v1.5h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.45h-4v-4.83c0-1.150-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.91h-4v-11z"/></svg></a></li>
+      <li><a href="https://www.facebook.com/ThePlatform.TLV/" target="_blank" rel="noopener" aria-label="The Platform on Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.87.25-1.460 1.5-1.460H16.6V4.460A21 21 0 0 0 14.3 4.3c-2.28 0-3.8 1.390-3.8 3.940v2.260H8v3h2.5V21h3z"/></svg></a></li>
+      <li><a href="https://www.tel-aviv.gov.il/Business/BusinessLicense/Pages/Haratzif.aspx?IccID=290" target="_blank" rel="noopener" aria-label="The Platform on the Tel Aviv-Yafo Municipality website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></a></li>
+    </ul>
+    <p class="foot__copy">© 2026 The Platform · Tel Aviv Tech · Tel Aviv Global</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12}) : null;
+  document.querySelectorAll('.rv').forEach((el, i) => {
+    el.style.transitionDelay = (i % 3) * 80 + 'ms';
+    io ? io.observe(el) : el.classList.add('in');
+  });
+
+  // Until a form endpoint is set, keep the form from reloading the page.
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', (e) => {
+    if (form.getAttribute('action') === '#') { e.preventDefault(); console.warn('Contact form: set the action URL to your form endpoint.'); }
+  });
+</script>
+</body>
+</html>
