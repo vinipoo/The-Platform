@@ -93,8 +93,11 @@ a{color:inherit}
    ============================================================ */
 .nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .25s, border-color .25s;border-bottom:2px solid transparent}
 .nav.is-scrolled{background:rgba(29,31,38,.92);backdrop-filter:blur(8px);border-color:#000}
-.nav__in{display:flex;align-items:center;justify-content:space-between;height:76px}
-.brand img{height:44px;width:auto}
+.nav__in{display:flex;align-items:center;justify-content:space-between;height:112px;transition:height .25s ease}
+.nav.is-scrolled .nav__in{height:84px}
+.brand img{height:88px;width:auto;transition:height .25s ease}
+.nav.is-scrolled .brand img{height:60px}
+@media (max-width:760px){.brand img{height:64px}.nav__in{height:88px}}
 .nav__links{display:flex;gap:28px;list-style:none;font-family:var(--f-display);font-size:14px}
 .nav__links a{text-decoration:none;opacity:.85}
 .nav__links a:hover{color:var(--lime);opacity:1}
@@ -107,41 +110,34 @@ a{color:inherit}
 .hero{
   position:relative;min-height:min(100vh,980px);min-height:min(100svh,980px);
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:130px 0 72px;overflow:hidden;isolation:isolate;
+  padding:160px 0 72px;overflow:hidden;isolation:isolate;
 }
 .hero__photo{position:absolute;inset:0;z-index:-2}
-.hero__photo img{width:100%;height:100%;object-fit:cover;object-position:30% center;filter:grayscale(1) contrast(1.1) brightness(.62)}
+.hero__photo img{width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(1) contrast(1.05) brightness(.6)}
 .hero::after{
   content:"";position:absolute;inset:0;z-index:-1;
   background:
     linear-gradient(90deg, rgba(37,40,48,.92) 0%, rgba(37,40,48,.55) 55%, rgba(37,40,48,.15) 100%),
     linear-gradient(180deg, transparent 55%, var(--ink) 100%);
 }
-/* vertical wordmark, as on the posters */
-.hero__vert{
-  position:absolute;right:clamp(8px,3vw,40px);top:96px;bottom:40px;
-  writing-mode:vertical-rl;rotate:180deg;
-  font-family:var(--f-display);font-weight:700;color:var(--magenta);
-  font-size:clamp(48px,7vw,104px);line-height:.95;letter-spacing:-.01em;
-  display:flex;align-items:center;user-select:none;
-}
 .hero__global{
   font-family:var(--f-display);font-weight:700;color:var(--lilac);
   font-size:clamp(64px,15vw,220px);line-height:.8;letter-spacing:-.03em;
   text-shadow:.035em .035em 0 var(--navy);
-  margin-bottom:clamp(18px,3vw,36px);user-select:none;
+  margin-bottom:clamp(48px,6vw,80px);user-select:none;
+  position:relative;display:inline-block;
 }
+.hero__the{position:absolute;right:-.12em;bottom:.02em;text-align:right;color:var(--lime);font-size:.36em;line-height:.85;letter-spacing:-.01em;text-shadow:.05em .05em 0 var(--navy)}
 .hero h1{
   font-family:var(--f-display);font-weight:700;color:var(--lime);
   font-size:clamp(32px,4.6vw,62px);line-height:1.05;letter-spacing:-.01em;max-width:17ch;
   text-shadow:3px 3px 0 var(--navy);
 }
-.hero h2{font-family:var(--f-body);font-weight:400;font-size:clamp(18px,1.8vw,22px);line-height:1.55;max-width:46ch;margin-top:22px}
+.hero h2{font-family:var(--f-body);font-weight:400;font-size:clamp(18px,1.8vw,22px);line-height:1.55;max-width:46ch;margin-top:clamp(28px,3.4vw,44px)}
 .hero__ctas{display:flex;flex-wrap:wrap;gap:16px;margin-top:34px}
 .hero > .wrap{width:100%}
 .hero__copy{max-width:min(880px, 82%)}
 @media (max-width:760px){
-  .hero__vert{display:none}
   .hero__copy{max-width:100%}
 }
 
@@ -153,23 +149,18 @@ section{padding:var(--section-y) 0}
 /* ---- global model ---- */
 .model__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start}
 .feat{border:var(--stroke) solid #000;color:var(--on-light);display:flex;flex-direction:column;position:relative}
-.feat .n{font-family:var(--f-display);font-weight:700;font-size:54px;line-height:1;color:var(--magenta);position:absolute;top:14px;right:18px}
-.feat h3{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,2.6vw,36px);line-height:1.05;padding:26px 70px 0 24px}
-.feat p{padding:22px 24px 26px;font-size:17px;line-height:1.55;margin-top:auto}
-.feat p strong{display:block;font-family:var(--f-display);font-size:17px;margin-bottom:6px}
-.feat--tall{background:var(--lilac);min-height:400px}
-.model__grid .feat:nth-child(2){margin-top:48px}
-.model__grid .feat:nth-child(3){margin-top:-20px}
+.feat .n{font-family:var(--f-display);font-weight:700;font-size:clamp(88px,9vw,128px);line-height:.8;letter-spacing:-.04em;color:var(--magenta);position:absolute;top:18px;right:20px}
+.feat h3{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,2.6vw,36px);line-height:1.05;padding:26px 110px 0 24px}
+.feat p{padding:14px 24px 26px;font-size:17px;line-height:1.55}
+.feat p strong{display:block;font-family:var(--f-display);font-size:17px;margin-bottom:4px}
+.feat--tall{background:var(--lilac)}
+.model__grid{align-items:stretch}
 .model__row{display:grid;grid-template-columns:1fr 1.25fr;gap:26px;margin-top:26px;align-items:stretch}
 .feat--wide{background:var(--grad-lilac-corner)}
 .feat--slack{background:var(--lime)}
-.feat--slack p{margin-top:0}
 .feat--slack .btn{margin:auto 24px 26px;align-self:flex-start}
 @media (max-width:960px){
   .model__grid,.model__row{grid-template-columns:1fr}
-  .feat--tall{min-height:0}
-  .model__grid .feat:nth-child(n){margin-top:0}
-  .feat p{margin-top:24px}
 }
 
 /* ---- numbers ---- */
@@ -190,18 +181,16 @@ section{padding:var(--section-y) 0}
 .strip__track{display:flex;gap:26px;width:max-content;animation:marquee 60s linear infinite}
 .strip:hover .strip__track{animation-play-state:paused}
 .strip img{height:clamp(260px,30vw,380px);width:auto;border:var(--stroke) solid #000;box-shadow:8px 8px 0 #000}
-.strip img:nth-child(odd){rotate:-2deg}
-.strip img:nth-child(even){rotate:1.5deg}
+.strip__track + .strip__track{margin-top:32px}
+.strip__track--reverse{animation-direction:reverse;animation-duration:70s}
+.strip__track--photos img{aspect-ratio:4/3;object-fit:cover}
 @keyframes marquee{to{transform:translateX(calc(-50% - 13px))}}
 
 /* ---- about ---- */
 .about__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:center}
 .about__body{font-size:clamp(19px,1.9vw,22px);line-height:1.6}
 .about__body strong{color:var(--lime);font-weight:600}
-.about__logos{display:flex;align-items:center;gap:26px;margin-top:36px}
-.about__logos img:first-child{height:72px;width:auto}
-.about__logos img:last-child{height:58px;width:auto}
-.about__media img{width:100%;border:var(--stroke) solid #000;box-shadow:14px 14px 0 var(--orange)}
+.about__media img{width:100%;aspect-ratio:4/3;object-fit:cover;border:var(--stroke) solid #000;box-shadow:14px 14px 0 var(--orange)}
 @media (max-width:860px){.about__grid{grid-template-columns:1fr}.about__media{max-width:460px}}
 
 /* ---- contact ---- */
@@ -227,7 +216,7 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
 .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
 .foot__brand{display:flex;gap:22px;align-items:center}
 .foot__brand img:first-child{height:56px;width:auto}
-.foot__brand img:last-child{height:44px;width:auto;opacity:.9}
+.foot__brand img:last-child{height:84px;width:auto}
 .foot__links{display:flex;gap:14px;list-style:none}
 .foot__links a{
   width:46px;height:46px;display:grid;place-items:center;
@@ -237,6 +226,17 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
 .foot__links a:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #000;background:var(--lime)}
 .foot__links svg{width:20px;height:20px}
 .foot__copy{font-family:var(--f-display);font-size:12px;color:var(--text-dim);width:100%}
+
+/* ---- modal ---- */
+.modal{border:var(--stroke) solid #000;padding:0;margin:auto;background:var(--lime);color:var(--on-light);
+  width:min(560px, calc(100% - 32px));max-height:calc(100vh - 32px);box-shadow:14px 14px 0 #000}
+.modal::backdrop{background:rgba(20,21,26,.75);backdrop-filter:blur(3px)}
+.modal__in{padding:clamp(24px,4vw,40px);position:relative}
+.modal h2{font-family:var(--f-display);font-size:clamp(26px,3.4vw,36px);line-height:1.05;padding-right:52px;margin-bottom:24px}
+.modal__close{position:absolute;top:16px;right:16px;width:44px;height:44px;border:var(--stroke-sm) solid #000;
+  background:var(--lilac);color:var(--on-light);font-size:24px;line-height:1;cursor:pointer;box-shadow:3px 3px 0 #000}
+.modal__close:focus-visible{outline:3px solid var(--magenta);outline-offset:3px}
+.form-slot iframe{width:100%;height:640px;border:var(--stroke-sm) solid #000;background:#fff}
 
 /* reveal */
 .rv{opacity:0;translate:0 24px;transition:opacity .6s ease, translate .6s ease}
@@ -272,11 +272,10 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
 
 <!-- ===================== 1. HERO ===================== -->
 <section class="hero" aria-labelledby="hero-title">
-  <div class="hero__photo"><img src="assets/space-crowd.jpg" alt="" fetchpriority="high"></div>
-  <div class="hero__vert" aria-hidden="true">The<br>Platform</div>
+  <div class="hero__photo"><img src="assets/hero-event.jpg" alt="" fetchpriority="high"></div>
   <div class="wrap">
     <div class="hero__copy">
-      <div class="hero__global" aria-hidden="true">global</div>
+      <div class="hero__global" aria-hidden="true">global<span class="hero__the">the<br>platform</span></div>
       <h1 id="hero-title">Tel Aviv’s Tech Hub for Early-Stage Founders.</h1>
       <h2>Powered by Tel Aviv Tech and the Municipality of Tel Aviv-Yafo. We connect the local startup ecosystem to global innovation hubs, giving founders the infrastructure they need to scale — <span class="hl">at zero cost and zero equity.</span></h2>
       <div class="hero__ctas">
@@ -321,8 +320,7 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
         <span class="n">5</span>
         <h3>The Global Slack Community</h3>
         <p><strong>Where the ecosystem never sleeps.</strong> Join our exclusive digital workspace for real-time networking, peer-to-peer consulting, and direct hub-to-hub connections.</p>
-        <!-- TODO: Slack invite link -->
-        <a class="btn btn--dark" href="#" data-slack>Join Our Slack Workspace</a>
+        <button class="btn btn--dark" type="button" data-open-modal="slack-modal">Apply to Join the Slack Community</button>
       </article>
     </div>
   </div>
@@ -331,7 +329,7 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
 <!-- ===================== 3. TRACK RECORD & NUMBERS ===================== -->
 <section id="numbers" class="numbers" aria-labelledby="numbers-title">
   <div class="wrap">
-    <h2 class="h-section rv" id="numbers-title">The Numbers Behind the Ecosystem.</h2>
+    <h2 class="h-section rv" id="numbers-title">The Platform by the Numbers</h2>
     <div class="nums">
       <div class="num rv"><b>500+</b><p>Active founders in our growing community.</p></div>
       <div class="num rv"><b>50+</b><p>Professional events and workshops annually.</p></div>
@@ -341,22 +339,41 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
 </section>
 
 <!-- ===================== poster strip (imagery only) ===================== -->
-<div class="strip" role="img" aria-label="Event posters from The Platform">
+<div class="strip" role="img" aria-label="Event posters and photos from The Platform">
+  <!-- posters grouped by series: Toast & Tech, PlugIn, Toolbox, then single events -->
   <div class="strip__track">
-    <img src="assets/poster-toolbox.jpg" alt="" loading="lazy">
-    <img src="assets/poster-plugin-1.jpg" alt="" loading="lazy">
-    <img src="assets/poster-match-point.jpg" alt="" loading="lazy">
-    <img src="assets/poster-time-workshop.jpg" alt="" loading="lazy">
-    <img src="assets/poster-plugin-2.jpg" alt="" loading="lazy">
-    <img src="assets/poster-plugin-3.jpg" alt="" loading="lazy">
+    <img src="assets/posters/toast-tech-1.jpg" alt="" loading="lazy">
+    <img src="assets/posters/toast-tech-2.jpg" alt="" loading="lazy">
+    <img src="assets/posters/toast-tech-3.jpg" alt="" loading="lazy">
+    <img src="assets/posters/plugin-1.jpg" alt="" loading="lazy">
+    <img src="assets/posters/plugin-2.jpg" alt="" loading="lazy">
+    <img src="assets/posters/plugin-3.jpg" alt="" loading="lazy">
+    <img src="assets/posters/toolbox-1.jpg" alt="" loading="lazy">
+    <img src="assets/posters/toolbox-2.jpg" alt="" loading="lazy">
+    <img src="assets/posters/talkathon.jpg" alt="" loading="lazy">
+    <img src="assets/posters/human-stack.jpg" alt="" loading="lazy">
+    <img src="assets/posters/the-edge.jpg" alt="" loading="lazy">
+    <img src="assets/posters/time-workshop.jpg" alt="" loading="lazy">
+    <img src="assets/posters/match-point.jpg" alt="" loading="lazy">
+    <img src="assets/posters/tel-tech.jpg" alt="" loading="lazy">
     <!-- duplicate set for a seamless loop -->
-    <img src="assets/poster-toolbox.jpg" alt="" loading="lazy" aria-hidden="true">
-    <img src="assets/poster-plugin-1.jpg" alt="" loading="lazy" aria-hidden="true">
-    <img src="assets/poster-match-point.jpg" alt="" loading="lazy" aria-hidden="true">
-    <img src="assets/poster-time-workshop.jpg" alt="" loading="lazy" aria-hidden="true">
-    <img src="assets/poster-plugin-2.jpg" alt="" loading="lazy" aria-hidden="true">
-    <img src="assets/poster-plugin-3.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/toast-tech-1.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/toast-tech-2.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/toast-tech-3.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/plugin-1.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/plugin-2.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/plugin-3.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/toolbox-1.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/toolbox-2.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/talkathon.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/human-stack.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/the-edge.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/time-workshop.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/match-point.jpg" alt="" loading="lazy" aria-hidden="true">
+    <img src="assets/posters/tel-tech.jpg" alt="" loading="lazy" aria-hidden="true">
   </div>
+  <!-- Photos from The Platform (events & everyday): add file names to PLATFORM_PHOTOS in the script below -->
+  <div class="strip__track strip__track--reverse strip__track--photos" id="photo-track" hidden></div>
 </div>
 
 <!-- ===================== 4. THE HUB & THE CITY ===================== -->
@@ -365,13 +382,9 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
     <div class="rv">
       <h2 class="h-section" id="about-title">Tel Aviv’s Home for Tech Innovation.</h2>
       <p class="about__body">The Platform is operated by <strong>Tel Aviv Tech</strong>, the International Economic Department of Tel Aviv Global – a municipal corporation of the City of Tel Aviv-Yafo. While Tel Aviv Tech drives the city's full tech ecosystem, The Platform is where that support begins on the ground, empowering founders from day one.</p>
-      <div class="about__logos">
-        <img src="assets/the-platform-logo.png" alt="The Platform">
-        <img src="assets/tel-aviv-tech.png" alt="Tel Aviv Tech — Tel Aviv Global">
-      </div>
     </div>
     <div class="about__media rv">
-      <img src="assets/poster-tel-tech.jpg" alt="Tel &amp; Tech — Tel Aviv entrepreneurship" loading="lazy">
+      <img src="assets/about-event.jpg" alt="Founders networking at an event at The Platform" loading="lazy">
     </div>
   </div>
 </section>
@@ -384,7 +397,7 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
         <h2 class="h-section" id="contact-title">Let’s Build the Bridge Together.</h2>
         <p>Ready to connect your ecosystem to Tel Aviv? Schedule an intro call with our team or drop your details below.</p>
       </div>
-      <!-- TODO: set action to the form endpoint (Typeform / Formspree / CRM) -->
+      <div class="form-slot" data-monday="contact">
       <form class="form" action="#" method="post" id="contact-form">
         <div class="field">
           <label for="f-org">Hub/Organization Name</label>
@@ -400,18 +413,35 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
         </div>
         <button class="btn btn--dark" type="submit">Schedule an Intro Call</button>
       </form>
+      </div>
     </div>
   </div>
 </section>
 
 </main>
 
+<!-- ===================== SLACK APPLICATION MODAL ===================== -->
+<dialog class="modal" id="slack-modal" aria-labelledby="slack-modal-title">
+  <div class="modal__in">
+    <button class="modal__close" type="button" data-close-modal aria-label="Close">×</button>
+    <h2 id="slack-modal-title">Apply to Join the Slack Community</h2>
+    <div class="form-slot" data-monday="slack">
+      <form class="form" action="#" method="post">
+        <div class="field"><label for="s-name">Full Name</label><input id="s-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="s-org">Hub/Organization Name</label><input id="s-org" name="organization" type="text" autocomplete="organization" required></div>
+        <div class="field"><label for="s-email">Work Email</label><input id="s-email" name="email" type="email" autocomplete="email" required></div>
+        <button class="btn btn--dark" type="submit">Apply to Join the Slack Community</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+
 <!-- ===================== FOOTER ===================== -->
 <footer>
   <div class="wrap foot">
     <div class="foot__brand">
       <img src="assets/the-platform-logo.png" alt="The Platform">
-      <img src="assets/tel-aviv-tech.png" alt="Tel Aviv Tech — Tel Aviv Global">
+      <img src="assets/tlv-tech-municipality-white.png" alt="Tel Aviv-Yafo Municipality · Tel Aviv Tech — Tel Aviv Global">
     </div>
     <ul class="foot__links">
       <li><a href="https://www.linkedin.com/company/tel-aviv-global/" target="_blank" rel="noopener" aria-label="Tel Aviv Global on LinkedIn">
@@ -438,11 +468,46 @@ footer{border-top:var(--stroke) solid #000;background:var(--ink-2);padding:40px 
     io ? io.observe(el) : el.classList.add('in');
   });
 
-  // Until a form endpoint is set, keep the form from reloading the page.
-  const form = document.getElementById('contact-form');
-  form.addEventListener('submit', (e) => {
-    if (form.getAttribute('action') === '#') { e.preventDefault(); console.warn('Contact form: set the action URL to your form endpoint.'); }
+  /* ============ CONFIG: fill these in ============ */
+  // Monday.com form share links (Form view > Share > copy link). When set, the form is embedded in place of the fallback fields.
+  const MONDAY_FORMS = {
+    slack:   '',   // Slack community application (popup)
+    contact: ''    // "Let's Build the Bridge Together"
+  };
+  // Photos from The Platform (events & everyday) for the second carousel, e.g. ['assets/photo-01.jpg', ...]
+  const PLATFORM_PHOTOS = Array.from({length: 16}, (_, i) => `assets/photos/platform-${String(i + 1).padStart(2, '0')}.jpg`);
+  /* =============================================== */
+
+  // Embed Monday forms where configured
+  document.querySelectorAll('[data-monday]').forEach(slot => {
+    const url = MONDAY_FORMS[slot.dataset.monday];
+    if (!url) return;
+    slot.innerHTML = '';
+    const f = document.createElement('iframe');
+    f.src = url; f.loading = 'lazy'; f.title = 'Form';
+    slot.appendChild(f);
   });
+  // Fallback forms: don't reload the page while no form is connected
+  document.querySelectorAll('form[action="#"]').forEach(form => form.addEventListener('submit', e => {
+    e.preventDefault(); console.warn('Form: connect MONDAY_FORMS in the page script.');
+  }));
+
+  // Slack popup
+  document.querySelectorAll('[data-open-modal]').forEach(btn => btn.addEventListener('click', () => {
+    document.getElementById(btn.dataset.openModal).showModal();
+  }));
+  document.querySelectorAll('dialog.modal').forEach(d => {
+    d.querySelector('[data-close-modal]').addEventListener('click', () => d.close());
+    d.addEventListener('click', e => { if (e.target === d) d.close(); });  // click on backdrop
+  });
+
+  // Photo carousel
+  if (PLATFORM_PHOTOS.length) {
+    const track = document.getElementById('photo-track');
+    const set = hidden => PLATFORM_PHOTOS.map(src => `<img src="${src}" alt="" loading="lazy"${hidden ? ' aria-hidden="true"' : ''}>`).join('');
+    track.innerHTML = set(false) + set(true);
+    track.hidden = false;
+  }
 </script>
 </body>
 </html>
